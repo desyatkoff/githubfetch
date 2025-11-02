@@ -39,6 +39,7 @@ It's like `neofetch` or `fastfetch`, but for GitHub
     + Followers
     + Following
     + Created At
+* Colored outputs
 
 ## Installation
 
