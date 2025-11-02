@@ -108,34 +108,47 @@ the Free Software Foundation, either version 3 of the License, or
 
         println!(
             r#"
-{}@github
+{}@{}
 {}-------
-ID: {}
-Name: {}
-Company: {}
-Blog: {}
-Location: {}
-Email: {}
-Bio: {}
-Public Repos: {}
-Public Gists: {}
-Followers: {}
-Following: {}
-Created At: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
+{}: {}
             "#,
-            user_profile_data.login.clone().unwrap_or_default(),
+            user_profile_data.login.clone().unwrap_or_default().blue(),
+            "github".blue(),
             "-".repeat(user_profile_data.login.clone().unwrap_or_default().len()),
+            "ID".blue(),
             user_profile_data.id.unwrap_or_default(),
+            "Name".blue(),
             user_profile_data.name.unwrap_or_default(),
+            "Company".blue(),
             user_profile_data.company.unwrap_or_default(),
+            "Blog".blue(),
             user_profile_data.blog.unwrap_or_default(),
+            "Location".blue(),
             user_profile_data.location.unwrap_or_default(),
+            "Email".blue(),
             user_profile_data.email.unwrap_or_default(),
+            "Bio".blue(),
             user_profile_data.bio.unwrap_or_default(),
+            "Public Repos".blue(),
             user_profile_data.public_repos.unwrap_or_default(),
+            "Public Gists".blue(),
             user_profile_data.public_gists.unwrap_or_default(),
+            "Followers".blue(),
             user_profile_data.followers.unwrap_or_default(),
+            "Following".blue(),
             user_profile_data.following.unwrap_or_default(),
+            "Created At".blue(),
             user_profile_data.created_at.unwrap_or_default()
         );
     } else {
