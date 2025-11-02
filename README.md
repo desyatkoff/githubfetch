@@ -38,6 +38,7 @@ It's like `neofetch` or `fastfetch`, but for GitHub
     + Public Gists
     + Followers
     + Following
+    + Total Stars
     + Created At
 * Colored outputs
 
