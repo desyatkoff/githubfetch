@@ -46,38 +46,11 @@ fn main() {
     let (help, version, username) = parse_args(&args);
 
     if help {
-        println!(
-            r#"
-USAGE:
-    githubfetch [OPTIONS] <USERNAME>
-
-OPTIONS:
-    -h, --help       Print help
-    -V, --version    Print version
-            "#
-        );
+        print_help();
     }
 
     if version {
-        println!(
-            r#"
-  ____ _ _   _   _       _     _____    _       _     
- / ___(_) |_| | | |_   _| |__ |  ___|__| |_ ___| |__  
-| |  _| | __| |_| | | | | '_ \| |_ / _ \ __/ __| '_ \ 
-| |_| | | |_|  _  | |_| | |_) |  _|  __/ || (__| | | |
- \____|_|\__|_| |_|\__,_|_.__/|_|  \___|\__\___|_| |_|
-
-GitHubFetch v{}
-Fetch GitHub profile info by username
-
-Copyright (C) 2025 Desyatkov Sergey
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version
-            "#,
-            VERSION
-        );
+        print_version();
     }
 
     if !username.is_empty() {
@@ -95,15 +68,15 @@ the Free Software Foundation, either version 3 of the License, or
             )
             .send()
             .expect(&format!(
-                "{} failed to query GitHub",
-                "error:".red()
+                "{}: failed to query GitHub",
+                "error".red().bold()
             ));
 
         let user_profile_data: UserInfo = response
             .json()
             .expect(&format!(
-                "{} failed to parse JSON",
-                "error:".red()
+                "{}: failed to parse JSON",
+                "error".red().bold()
             ));
 
         println!(
@@ -154,8 +127,13 @@ the Free Software Foundation, either version 3 of the License, or
     } else {
         if !help && !version {
             eprintln!(
-                "{} username not specified",
-                "error:".red()
+                "{}: username not specified",
+                "error".red().bold()
+            );
+
+            println!(
+                "{}: use `-h` or `--help` to get usage help",
+                "help".cyan().bold()
             );
         }
     }
@@ -186,4 +164,39 @@ fn parse_args(args: &[String]) -> (bool, bool, String) {
     }
 
     return (help, version, username);
+}
+
+fn print_help() {
+    println!(
+        r#"
+USAGE:
+    githubfetch [OPTIONS] <USERNAME>
+
+OPTIONS:
+    -h, --help       Print help
+    -V, --version    Print version
+        "#
+    );
+}
+
+fn print_version() {
+    println!(
+        r#"
+  ____ _ _   _   _       _     _____    _       _     
+ / ___(_) |_| | | |_   _| |__ |  ___|__| |_ ___| |__  
+| |  _| | __| |_| | | | | '_ \| |_ / _ \ __/ __| '_ \ 
+| |_| | | |_|  _  | |_| | |_) |  _|  __/ || (__| | | |
+ \____|_|\__|_| |_|\__,_|_.__/|_|  \___|\__\___|_| |_|
+
+GitHubFetch v{}
+Fetch GitHub profile info by username
+
+Copyright (C) 2025 Desyatkov Sergey
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version
+        "#,
+        VERSION
+    );
 }
