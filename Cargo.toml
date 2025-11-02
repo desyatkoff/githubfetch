@@ -8,5 +8,6 @@ repository = "https://github.com/desyatkoff/githubfetch"
 license = "GPL-3.0-or-later"
 
 [dependencies]
+colored = "3.0.0"
 reqwest = { version = "0.12.24", features = ["blocking", "json"] }
 serde = { version = "1", features = ["derive"] }

@@ -18,6 +18,7 @@
  */
 
 use std::env;
+use colored::Colorize;
 use reqwest::blocking::Client;
 use serde::Deserialize;
 
@@ -44,7 +45,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let (help, version, username) = parse_args(&args);
 
-    if help || username.is_empty() {
+    if help {
         println!(
             r#"
 USAGE:
@@ -55,8 +56,6 @@ OPTIONS:
     -V, --version    Print version
             "#
         );
-
-        return;
     }
 
     if version {
@@ -79,31 +78,36 @@ the Free Software Foundation, either version 3 of the License, or
             "#,
             VERSION
         );
-
-        return;
     }
 
-    let user_url = format!(
-        "https://api.github.com/users/{}",
-        username
-    );
+    if !username.is_empty() {
+        let user_url = format!(
+            "https://api.github.com/users/{}",
+            username
+        );
 
-    let client = Client::new();
-    let response = client
-        .get(&user_url)
-        .header(
-            "User-Agent",
-            format!("GitHubFetch/{}", VERSION)
-        )
-        .send()
-        .expect("Failed to query GitHub");
+        let client = Client::new();
+        let response = client
+            .get(&user_url)
+            .header(
+                "User-Agent",
+                format!("GitHubFetch/{}", VERSION)
+            )
+            .send()
+            .expect(&format!(
+                "{} failed to query GitHub",
+                "error:".red()
+            ));
 
-    let user_profile_data: UserInfo = response
-        .json()
-        .expect("Failed to parse JSON");
+        let user_profile_data: UserInfo = response
+            .json()
+            .expect(&format!(
+                "{} failed to parse JSON",
+                "error:".red()
+            ));
 
-    println!(
-        r#"
+        println!(
+            r#"
 {}@github
 {}-------
 ID: {}
@@ -118,22 +122,30 @@ Public Gists: {}
 Followers: {}
 Following: {}
 Created At: {}
-        "#,
-        user_profile_data.login.clone().unwrap_or_default(),
-        "-".repeat(user_profile_data.login.clone().unwrap_or_default().len()),
-        user_profile_data.id.unwrap_or_default(),
-        user_profile_data.name.unwrap_or_default(),
-        user_profile_data.company.unwrap_or_default(),
-        user_profile_data.blog.unwrap_or_default(),
-        user_profile_data.location.unwrap_or_default(),
-        user_profile_data.email.unwrap_or_default(),
-        user_profile_data.bio.unwrap_or_default(),
-        user_profile_data.public_repos.unwrap_or_default(),
-        user_profile_data.public_gists.unwrap_or_default(),
-        user_profile_data.followers.unwrap_or_default(),
-        user_profile_data.following.unwrap_or_default(),
-        user_profile_data.created_at.unwrap_or_default()
-    );
+            "#,
+            user_profile_data.login.clone().unwrap_or_default(),
+            "-".repeat(user_profile_data.login.clone().unwrap_or_default().len()),
+            user_profile_data.id.unwrap_or_default(),
+            user_profile_data.name.unwrap_or_default(),
+            user_profile_data.company.unwrap_or_default(),
+            user_profile_data.blog.unwrap_or_default(),
+            user_profile_data.location.unwrap_or_default(),
+            user_profile_data.email.unwrap_or_default(),
+            user_profile_data.bio.unwrap_or_default(),
+            user_profile_data.public_repos.unwrap_or_default(),
+            user_profile_data.public_gists.unwrap_or_default(),
+            user_profile_data.followers.unwrap_or_default(),
+            user_profile_data.following.unwrap_or_default(),
+            user_profile_data.created_at.unwrap_or_default()
+        );
+    } else {
+        if !help && !version {
+            eprintln!(
+                "{} username not specified",
+                "error:".red()
+            );
+        }
+    }
 
     return;
 }
