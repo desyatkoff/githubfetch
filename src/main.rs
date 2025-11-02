@@ -24,21 +24,26 @@ use serde::Deserialize;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
-#[derive(Debug, Deserialize)]
+#[derive(Deserialize)]
 struct UserInfo {
-    login: Option<String>,
-    id: Option<usize>,
+    login: String,
+    id: usize,
     name: Option<String>,
     company: Option<String>,
     blog: Option<String>,
     location: Option<String>,
     email: Option<String>,
     bio: Option<String>,
-    public_repos: Option<usize>,
-    public_gists: Option<usize>,
-    followers: Option<usize>,
-    following: Option<usize>,
-    created_at: Option<String>
+    public_repos: usize,
+    public_gists: usize,
+    followers: usize,
+    following: usize,
+    created_at: String
+}
+
+#[derive(Deserialize)]
+struct RepoInfo {
+    stargazers_count: usize
 }
 
 fn main() {
@@ -79,6 +84,42 @@ fn main() {
                 "error".red().bold()
             ));
 
+        let mut page = 1;
+        let mut total_stars = 0;
+
+        loop {
+            let repos: Vec<RepoInfo> = client
+                .get(format!(
+                    "{}/repos",
+                    &user_url
+                ))
+                .query(&[
+                    ("per_page", "100"),
+                    ("page", &page.to_string())
+                ])
+                .header(
+                    "User-Agent",
+                    format!("GitHubFetch/{}", VERSION)
+                )
+                .send()
+                .expect(&format!(
+                    "{}: failed to query GitHub",
+                    "error".red().bold()
+                ))
+                .json()
+                .expect(&format!(
+                    "{}: failed to parse JSON",
+                    "error".red().bold()
+                ));
+
+            if repos.is_empty() {
+                break;
+            }
+
+            total_stars += repos.iter().map(|r| r.stargazers_count).sum::<usize>();
+            page += 1;
+        }
+
         println!(
             r#"
 {}@{}
@@ -95,12 +136,13 @@ fn main() {
 {}: {}
 {}: {}
 {}: {}
+{}: {}
             "#,
-            user_profile_data.login.clone().unwrap_or_default().blue(),
+            user_profile_data.login.clone().blue(),
             "github".blue(),
-            "-".repeat(user_profile_data.login.clone().unwrap_or_default().len()),
+            "-".repeat(user_profile_data.login.clone().len()),
             "ID".blue(),
-            user_profile_data.id.unwrap_or_default(),
+            user_profile_data.id,
             "Name".blue(),
             user_profile_data.name.unwrap_or_default(),
             "Company".blue(),
@@ -114,15 +156,17 @@ fn main() {
             "Bio".blue(),
             user_profile_data.bio.unwrap_or_default(),
             "Public Repos".blue(),
-            user_profile_data.public_repos.unwrap_or_default(),
+            user_profile_data.public_repos,
             "Public Gists".blue(),
-            user_profile_data.public_gists.unwrap_or_default(),
+            user_profile_data.public_gists,
             "Followers".blue(),
-            user_profile_data.followers.unwrap_or_default(),
+            user_profile_data.followers,
             "Following".blue(),
-            user_profile_data.following.unwrap_or_default(),
+            user_profile_data.following,
+            "Total Stars".blue(),
+            total_stars,
             "Created At".blue(),
-            user_profile_data.created_at.unwrap_or_default()
+            user_profile_data.created_at
         );
     } else {
         if !help && !version {
