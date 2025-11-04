@@ -121,8 +121,7 @@ fn main() {
         }
 
         println!(
-            r#"
-            ▟██████████████▙               {}@{}
+            r#"            ▟██████████████▙               {}@{}
          ▟████████████████████▙            {}-------
        ▟████████████████████████▙          {}: {}
      ▟████████████████████████████▙        {}: {}
@@ -141,8 +140,7 @@ fn main() {
     ▜███▙   ▜██▛        ▜██████████▛       
       ▜██▙               ████████▛         
         ▜█████▙          ██████▛           
-           ▜███          ███▛              
-            "#,
+           ▜███          ███▛              "#,
             user_profile_data.login.clone().blue(),
             "github".blue(),
             "-".repeat(user_profile_data.login.clone().len()),
@@ -217,21 +215,18 @@ fn parse_args(args: &[String]) -> (bool, bool, String) {
 
 fn print_help() {
     println!(
-        r#"
-USAGE:
+        r#"USAGE:
     githubfetch [OPTIONS] <USERNAME>
 
 OPTIONS:
     -h, --help       Print help
-    -V, --version    Print version
-        "#
+    -V, --version    Print version"#
     );
 }
 
 fn print_version() {
     println!(
-        r#"
-  ____ _ _   _   _       _     _____    _       _     
+        r#"  ____ _ _   _   _       _     _____    _       _     
  / ___(_) |_| | | |_   _| |__ |  ___|__| |_ ___| |__  
 | |  _| | __| |_| | | | | '_ \| |_ / _ \ __/ __| '_ \ 
 | |_| | | |_|  _  | |_| | |_) |  _|  __/ || (__| | | |
@@ -244,8 +239,7 @@ Copyright (C) 2025 Desyatkov Sergey
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version
-        "#,
+(at your option) any later version"#,
         VERSION
     );
 }
