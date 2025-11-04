@@ -41,6 +41,7 @@ It's like `neofetch` or `fastfetch`, but for GitHub
     + Total Stars
     + Created At
 * Colored outputs
+* ASCII-art of GitHub logo
 
 ## Installation
 
