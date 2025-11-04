@@ -13,6 +13,7 @@
     &ensp;<a href="#features"><kbd>&ensp;<br />&ensp;&ensp;Features&ensp;&ensp;<br />&ensp;</kbd></a>&ensp;
     &ensp;<a href="#installation"><kbd>&ensp;<br />&ensp;&ensp;Installation&ensp;&ensp;<br />&ensp;</kbd></a>&ensp;
     &ensp;<a href="#usage"><kbd>&ensp;<br />&ensp;&ensp;Usage&ensp;&ensp;<br />&ensp;</kbd></a>&ensp;
+    &ensp;<a href="#demo"><kbd>&ensp;<br />&ensp;&ensp;Demo&ensp;&ensp;<br />&ensp;</kbd></a>&ensp;
     &ensp;<a href="#feedback"><kbd>&ensp;<br />&ensp;&ensp;Feedback&ensp;&ensp;<br />&ensp;</kbd></a>&ensp;
     &ensp;<a href="#contributing"><kbd>&ensp;<br />&ensp;&ensp;Contributing&ensp;&ensp;<br />&ensp;</kbd></a>&ensp;
     &ensp;<a href="#license"><kbd>&ensp;<br />&ensp;&ensp;License&ensp;&ensp;<br />&ensp;</kbd></a>&ensp;
@@ -66,6 +67,10 @@ OPTIONS:
     -h, --help       Print help
     -V, --version    Print version
 ```
+
+## Demo
+
+![](/assets/demo.png)
 
 ## Feedback
 
